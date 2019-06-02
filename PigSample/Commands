@@ -1,0 +1,99 @@
+Starting HDFS
+start-dfs.sh 
+start-yarn.sh
+
+
+Create a Directory in HDFS
+hdfs dfs -mkdir hdfs://localhost:9000/Pig_Data 
+
+
+Placing the data in HDFS
+001,Rajiv,Reddy,9848022337,Hyderabad
+002,siddarth,Battacharya,9848022338,Kolkata
+003,Rajesh,Khanna,9848022339,Delhi
+004,Preethi,Agarwal,9848022330,Pune
+005,Trupthi,Mohanthy,9848022336,Bhuwaneshwar
+006,Archana,Mishra,9848022335,Chennai.
+
+hdfs dfs -put /home/Hadoop/Pig/Pig_Data/student_data.txt dfs://localhost:9000/pig_data/
+
+Pig –x mapreduce
+	
+Load Operator
+Relation_name = LOAD 'Input file path' USING function as schema;
+student = LOAD 'hdfs://localhost:9000/pig_data/student_data.txt' 
+   USING PigStorage(',')
+   as ( id:int, firstname:chararray, lastname:chararray, phone:chararray, 
+   city:chararray );	
+
+
+STORE Relation_name INTO ' required_directory_path ' [USING function];
+STORE student INTO ' hdfs://localhost:9000/pig_Output/ ' USING PigStorage (',');
+
+
+Dump Relation_Name
+
+Describe Relation_name
+describe student;
+student: { id: int,firstname: chararray,lastname: chararray,phone: chararray,city: chararray }
+
+
+explain Relation_name; 	
+explain student;
+
+
+illustrate Relation_name;
+illustrate student;
+
+
+Group_data = GROUP Relation_name BY age;
+group_data = GROUP student_details by age;
+Describe group_data
+group_data: {group: int,student_details: {(id: int,firstname: chararray,
+               lastname: chararray,age: int,phone: chararray,city: chararray)}}
+
+
+cogroup_data = COGROUP student_details by age, employee_details by age;
+
+
+Relation3_name = JOIN Relation1_name BY key, Relation2_name BY key ;
+customers3 = JOIN customers1 BY id, customers2 BY id;
+coustomer_orders = JOIN customers BY id, orders BY customer_id;
+
+Relation3_name = JOIN Relation1_name BY id LEFT OUTER, Relation2_name BY customer_id;
+outer_left = JOIN customers BY id LEFT OUTER, orders BY customer_id;
+outer_right = JOIN customers BY id RIGHT, orders BY customer_id;
+outer_full = JOIN customers BY id FULL OUTER, orders BY customer_id;
+Relation3_name = JOIN Relation2_name BY (key1, key2), Relation3_name BY (key1, key2);
+
+Relation3_name = CROSS Relation1_name, Relation2_name;
+cross_data = CROSS customers, orders;
+
+Relation_name3 = UNION Relation_name1, Relation_name2;
+student = UNION student1, student2;
+
+SPLIT Relation1_name INTO Relation2_name IF (condition1), Relation2_name (condition2);
+SPLIT student_details into student_details1 if age<23, student_details2 if (22<age and age>25);
+
+Relation2_name = FILTER Relation1_name BY (condition);
+filter_data = FILTER student_details BY city == 'Chennai';
+
+Relation_name2 = DISTINCT Relatin_name1;
+distinct_data = DISTINCT student_details;
+
+Relation_name2 = FOREACH Relatin_name1 GENERATE (required data);
+foreach_data = FOREACH student_details GENERATE id,age,city;
+
+Relation_name2 = ORDER Relatin_name1 BY (ASC|DESC);
+order_by_data = ORDER student_details BY age DESC;
+
+Result = LIMIT Relation_name required number of tuples;
+limit_data = LIMIT student_details 4; 
+
+
+
+
+
+
+
+

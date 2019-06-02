@@ -1,0 +1,119 @@
+sqoop import \
+--connect jdbc:mysql://localhost/userdb \
+--username root --password abcde \
+--table emp --m 1 \
+--target-dir /user/hduser/sqoop \  
+--bindir /home/hduser \
+--verbose
+
+
+----bind dir should map to your home directory of user
+----In mapreduce also you need to give path from your home directory to run class present in jar in any job
+
+
+--Import based on where criteria
+sqoop import \
+--connect jdbc:mysql://localhost/userdb \
+--username root --password abcde \
+--table students \
+--m 1 \
+--where “rollno = 1” \
+--target-dir /user/hduser/sqoop/where \
+--bindir /home/hduser \
+--verbose
+
+
+---Incremental import
+sqoop import \
+--connect jdbc:mysql://localhost/userdb \
+--username root --password abcde \
+--table students \
+--m 1 \
+--target-dir /user/hduser/sqoop/incremental \
+--bindir /home/hduser \
+--verbose \
+--incremental append \
+--check-column rollno \
+--last-value 2
+
+
+
+---Import all tables
+sqoop import-all-tables \
+--connect jdbc:mysql://localhost/userdb \
+--username root --password  \
+--target-dir /user/hduser/sqoop/alltables \
+--bindir /home/hduser \
+--verbose \
+
+
+
+
+
+-------Export
+sqoop export \
+--connect jdbc:mysql://localhost/userdb \
+--username root --password  \
+--table students \
+--export-dir /user/hduser/sqoop/where \
+--verbose
+
+
+
+---Sqoop job
+sqoop job --create myjob \
+-- import \
+--connect jdbc:mysql://localhost/userdb \
+--username root --password  \
+--table emp --m 1 \
+--target-dir /user/hduser/sqoop/emp \
+--bindir /home/hduser \
+--verbose
+
+
+
+
+---codegen
+sqoop codegen \
+--connect jdbc:mysql://localhost/userdb \
+--username root --password  \
+--table emp \
+--bindir /home/hduser/sqoop \
+--verbose
+
+
+
+---Eval
+sqoop eval \
+--connect jdbc:mysql://localhost/userdb \
+--username root --password  \
+--query "SELECT * FROM students LIMIT 3" \
+--bindir /home/hduser/sqoop \
+--verbose
+
+
+
+--Insert using Eval
+sqoop eval \
+--connect jdbc:mysql://localhost/userdb \
+--username root --password  \
+--bindir /home/hduser/sqoop \
+--verbose \
+--e "INSERT INTO students VALUES(5,'HDFS')"
+
+
+
+--list database
+sqoop list-databases \
+--connect jdbc:mysql://localhost/ \
+--username root --password 
+
+
+---List tables
+sqoop list-tables \
+--connect jdbc:mysql://localhost/userdb \
+--username root --password 
+
+
+
+

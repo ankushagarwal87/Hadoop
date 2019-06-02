@@ -1,0 +1,81 @@
+CREATE DATABASE|SCHEMA [IF NOT EXISTS] <database name>
+
+CREATE SCHEMA userdb;
+
+SHOW DATABASES;
+
+DROP (DATABASE|SCHEMA) [IF EXISTS] database_name [RESTRICT|CASCADE];
+
+CREATE [TEMPORARY] [EXTERNAL] TABLE [IF NOT EXISTS] [db_name.] table_name
+
+[(col_name data_type [COMMENT col_comment], ...)]
+[COMMENT table_comment]
+[ROW FORMAT row_format]
+[STORED AS file_format]
+
+LOAD DATA [LOCAL] INPATH 'filepath' [OVERWRITE] INTO TABLE tablename 
+[PARTITION (partcol1=val1, partcol2=val2 ...)]
+
+ALTER TABLE name RENAME TO new_name
+ALTER TABLE name ADD COLUMNS (col_spec[, col_spec ...])
+ALTER TABLE name DROP [COLUMN] column_name
+ALTER TABLE name CHANGE column_name new_name new_type
+ALTER TABLE name REPLACE COLUMNS (col_spec[, col_spec ...])
+
+DROP TABLE [IF EXISTS] table_name;
+
+ALTER TABLE table_name ADD [IF NOT EXISTS] PARTITION partition_spec
+[LOCATION 'location1'] partition_spec [LOCATION 'location2'] ...;
+
+ALTER TABLE table_name DROP [IF EXISTS] PARTITION partition_spec, PARTITION partition_spec,...;
+
+CREATE VIEW [IF NOT EXISTS] view_name [(column_name [COMMENT column_comment], ...) ]
+[COMMENT table_comment]
+AS SELECT ...
+
+DROP VIEW view_name
+
+CREATE INDEX index_name
+ON TABLE base_table_name (col_name, ...)
+AS 'index.handler.class.name'
+[WITH DEFERRED REBUILD]
+[IDXPROPERTIES (property_name=property_value, ...)]
+[IN TABLE index_table_name]
+[PARTITIONED BY (col_name, ...)]
+[
+   [ ROW FORMAT ...] STORED AS ...
+   | STORED BY ...
+]
+[LOCATION hdfs_path]
+[TBLPROPERTIES (...)]
+
+DROP INDEX <index_name> ON <table_name>
+
+SELECT [ALL | DISTINCT] select_expr, select_expr, ... 
+FROM table_reference 
+[WHERE where_condition] 
+[GROUP BY col_list] 
+[HAVING having_condition] 
+[CLUSTER BY col_list | [DISTRIBUTE BY col_list] [SORT BY col_list]] 
+[LIMIT number];
+
+SELECT [ALL | DISTINCT] select_expr, select_expr, ... 
+FROM table_reference 
+[WHERE where_condition] 
+[GROUP BY col_list] 
+[HAVING having_condition] 
+[ORDER BY col_list]] 
+[LIMIT number];
+
+SELECT [ALL | DISTINCT] select_expr, select_expr, ... 
+FROM table_reference 
+[WHERE where_condition] 
+[GROUP BY col_list] 
+[HAVING having_condition] 
+[ORDER BY col_list]] 
+[LIMIT number];
+
+SELECT c.ID, c.NAME, c.AGE, o.AMOUNT 
+FROM CUSTOMERS c JOIN ORDERS o 
+ON (c.ID = o.CUSTOMER_ID);
+

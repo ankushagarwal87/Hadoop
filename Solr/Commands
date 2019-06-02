@@ -1,0 +1,7 @@
+solr start -e cloud -noprompt   
+--start solr
+
+
+post -c gettingstarted docs/
+--c gettingstarted: name of the collection to index into
+--docs/: a relative path of the Solr install docs/ directory

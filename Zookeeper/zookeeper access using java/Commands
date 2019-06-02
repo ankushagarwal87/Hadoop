@@ -1,0 +1,30 @@
+kServer.sh start
+zkCli.sh
+
+ls /
+
+create /myzookeepernode 'first_version'
+get /myzookeepernode
+set /myzookeepernode 'second_version'
+get /myzookeepernode
+
+create -s /myzookeepernode/mysequential 'im_sequential'
+create -s /myzookeepernode/mysequential 'also_sequential'
+get /myzookeepernode/mysequential0000000001 
+
+delete /myzookeepernode/mysequential0000000000 
+delete /myzookeepernode/mysequential0000000001 
+delete /myzookeepernode
+
+create /mygroup 'top_node'
+ls /
+
+create –e /mygroup/servergreen 'green' 
+create –e /mygroup/serverblue 'blue' 
+get /mygroup/servergreen
+ls /mygroup
+delete /mygroup
+
+create /myconfig 'setting_1' 
+get /myconfig true
+set /myconfig 'setting_2'

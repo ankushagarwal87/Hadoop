@@ -1,0 +1,32 @@
+create 'table1', 'col_fam1', 'col_fam2', 'col_fam3'
+
+describe 'table1'
+
+disable 'table1'
+
+alter 'table1', {NAME => 'col_fam1', COMPRESSION => 'GZ'}
+
+alter 'table1', {NAME => 'col_fam1', IN_MEMORY => 'true'}
+
+alter 'table1', {NAME => 'col_fam1', VERSIONS => 3}, {NAME => 'col_fam2', VERSIONS => 2}
+
+describe 'table1'
+
+enable 'table1'
+
+put 'table1', 'row1', 'col_fam1:c11', 'r1v11'
+put 'table1', 'row1', 'col_fam1:c12', 'r1v12'
+put 'table1', 'row1', 'col_fam2:c21', 'r1v21'
+put 'table1', 'row1', 'col_fam3:c31', 'r1v31'
+
+count 'table1'
+
+get 'table1', 'row1'
+
+scan 'table1'
+
+put 'table1', 'row1', 'col_fam1:c11', 'n1v11'
+
+scan 'table1'
+
+scan 'table1', {VERSIONS => 2}

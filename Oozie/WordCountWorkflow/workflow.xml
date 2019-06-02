@@ -1,0 +1,56 @@
+<workflow-app name="WCapp" xmlns="uri:oozie:workflow:0.1"> 
+<start to="wordcount"/> 
+<action name="wordcount"> 
+<map-reduce> 
+<job-tracker>${resourcemanager}</job-tracker> 
+<name-node>${namenode}</name-node> 
+<prepare> 
+<delete path="${PREFIX}/user/mapreduce/output"/> 
+</prepare> 
+<configuration> 
+<property> 
+   <name>mapred.mapper.new-api</name> 
+   <value>true</value> 
+</property> 
+<property> 
+   <name>mapred.reducer.new-api</name> 
+   <value>true</value> 
+</property> 
+<property> 
+   <name>mapreduce.map.class</name> 
+   <value>com.ankush.hadoop.MapReduce.WordCountMapper</value> 
+</property> 
+<property> 
+   <name>mapreduce.reduce.class</name> 
+   <value>com.ankush.hadoop.MapReduce.WordCountReducer</value> 
+</property> 
+<property> 
+   <name>mapred.output.key.class</name> 
+   <value>org.apache.hadoop.io.Text</value> 
+</property> 
+<property> 
+   <name>mapred.output.value.class</name> 
+   <value>org.apache.hadoop.io.IntWritable</value> 
+</property> 
+<property> 
+   <name>mapred.input.dir</name> 
+   <value>/user/mapreduce/Input</value> 
+</property> 
+<property> 
+   <name>mapred.output.dir</name>
+  <value>/user/mapreduce/output</value> 
+</property> 
+<property> 
+   <name>mapred.job.queue.name</name> 
+   <value>${queueName}</value> 
+</property> 
+</configuration> 
+</map-reduce> 
+<ok to="end"/> 
+<error to="fail"/> 
+</action> 
+<kill name="fail"> 
+<message>Bummer, error message[${wf:errorMessage(wf:lastErrorNode())}]</message> 
+</kill> 
+<end name="end"/> 
+</workflow-app> 

@@ -1,0 +1,2 @@
+# PigSample
+Sample Pig programs

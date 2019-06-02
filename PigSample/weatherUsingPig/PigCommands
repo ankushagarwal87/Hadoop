@@ -1,0 +1,20 @@
+1) Load data into a alias.
+weather = load '/user/hduser/pig/weather/weatherPIG.txt' using TextLoader as (data:chararray);
+
+2) Run UDF command to separate date,hot temperature & cool temperature.
+weatherUDF = foreach weather generate TRIM(SUBSTRING(data, 6, 14)), com.learn.pig.IfCorrupted(TRIM(SUBSTRING(data, 46, 53))), com.learn.pig.IfCorrupted(TRIM(SUBSTRING(data, 38, 45)));
+
+3) Store required data into HDFS.
+Store weatherUDF into '/user/hduser/pig/weather/weatherPIGUDF' using PigStorage(',');
+
+4) Load data in another alias
+weatherTemp = load '/user/hduser/pig/weather/weatherPIGUDF' using TextLoader as (data:chararray,min:double,max:double)
+
+5) Filter Hot days list
+hotDay = filter weatherTemp by max > 25.0
+
+6) Filter Cool day list
+coolDay = filter weatherTemp by min < 0.0
+
+
+
